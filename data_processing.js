@@ -170,10 +170,10 @@ function buildDataStore(rawData) {
         if (ukData && !regData) {
             let ukValue = ukData.unitedKingdom;
             let block = { date: date,
-                          england: ukValue * (84.3 / 100.0),        // 84.3% of UK population
-                          scotland: ukValue * (8.2 / 100.0),        // 8.2%
-                          wales: ukValue * (4.7 / 100.0),           // 4.7%
-                          nireland: ukValue * (2.8 / 100.0) };      // 2.8%
+                          england: Math.ceil(ukValue * (84.3 / 100.0)),        // 84.3% of UK population
+                          scotland: Math.ceil(ukValue * (8.2 / 100.0)),        // 8.2%
+                          wales: Math.ceil(ukValue * (4.7 / 100.0)),           // 4.7%
+                          nireland: Math.ceil(ukValue * (2.8 / 100.0)) };      // 2.8%
 
             // Make sure we only have the most recent data for a particular day...
             let len = dataStore.cleanRegDataInfected.length;
