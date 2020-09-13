@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Spartan&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <!-- ChartJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+    <link rel="stylesheet" href="./public/stylesheets/main.css">
+
+    <!-- Data processing scripts -->
+    <script type="text/javascript" src="data_processing.js"></script>
+
+    <!-- Utilities -->
+    <script type="text/javascript">
+        
+        function getYear() {
+            let d = new Date();
+            return d.getYear() + 1900; 
+        }
+
+    </script>
+
+    <title>COVID-19 Tracker</title>
+</head>
+
+<body>
+    <a name="top"></a>
+
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <a class="navbar-brand navbar_info" href="#">COVID-19 Tracker</a>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="nav_bar_collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="#top">Country</a></li>
+                    <li><a href="#reg">Regions</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select country</a>
+                        <ul id="dropdownMenu" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="navbar_selected" href="#">United Kingdom</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div id="loading_panel">
+        <h3>Retrieving data</h3>
+        <span class="loader" id="loader-1"></span>
+    </div>
+
+    <div class="feature_section">
+        <h1>Infections over time (country-wide)</h1>
+        <div class="chart_section">
+            <canvas class="chart_canvas" id="tm_chart"></canvas>
+        </div>
+        <div class="controls_section" id="tm_controls">
+            <form class="form-inline right_align_flex" method="post">
+                <label class="control-label">From</label>
+                <input class="form-control" id="tm_date_from" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                
+                <label class="control-label">To</label>
+                <input class="form-control" id="tm_date_to" name="date" placeholder="DD/MM/YYYY" type="text"/>
+            </form>
+        </div>
+    </div>
+
+    <a name="reg"></a>
+    <div class="feature_section">
+        <h1>Infections over time (regions)</h1>
+        <div class="chart_section">
+            <canvas class="chart_canvas" id="reg_chart"></canvas>
+        </div>
+        <div class="controls_section" id="reg_controls">
+
+            <form class="form-inline" method="post">
+                <label class="control-label">England</label>
+                <input type="checkbox" class="form-check-input" id="england_checkbox" checked>
+                <label class="control-label">Wales</label>
+                <input type="checkbox" class="form-check-input" id="wales_checkbox">
+                <label class="control-label">Scotland</label>
+                <input type="checkbox" class="form-check-input" id="scotland_checkbox">
+                <label class="control-label">N. Ireland</label>
+                <input type="checkbox" class="form-check-input" id="nireland_checkbox">
+            </form>
+
+            <form class="form-inline right_align_flex" method="post">
+                <label class="control-label">From</label>
+                <input class="form-control" id="reg_date_from" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                
+                <label class="control-label">To</label>
+                <input class="form-control" id="reg_date_to" name="date" placeholder="DD/MM/YYYY" type="text"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="copyright"/>
+
+    <!-- Initialisation... -->
+
+    <script type="text/javascript">
+
+        // Set copyright text...
+        $("#copyright").text("© " + getYear() + " Stevie Turnbull");
+
+        // Initialise date pickers...
+        let data = [
+            { input: "#tm_date_from", container: "body" },
+            { input: "#tm_date_to", container: "body" },
+            { input: "#reg_date_from", container: "body" },
+            { input: "#reg_date_to", container: "body" }
+        ];
+
+        data.forEach(function (e) {
+            let options = {
+                format: "dd/mm/yyyy",
+                container: e.container,
+                orientation: "auto",
+                todayHighlight: true,
+                autoclose: true,
+            };
+            $(e.input).datepicker(options);
+        });
+
+        // Set default font colour for Chart.js...
+        Chart.defaults.global.defaultFontColor = 'black';
+
+        // Callbacks...
+
+        $("#tm_date_from").datepicker().on("changeDate", function () {
+
+            rebuildUKChart();
+        });
+
+        $("#tm_date_to").datepicker().on("changeDate", function () {
+            
+            rebuildUKChart();
+        });
+
+        $("#reg_date_from").datepicker().on("changeDate", function () {
+
+            rebuildRegChart();
+        });
+
+        $("#reg_date_to").datepicker().on("changeDate", function () {
+            
+            rebuildRegChart();
+        });
+
+        $("#england_checkbox").click( function() {
+
+            rebuildRegChart();
+        });
+
+        $("#wales_checkbox").click( function() {
+
+            rebuildRegChart();
+        });
+
+        $("#scotland_checkbox").click( function() {
+
+            rebuildRegChart();
+        });
+
+        $("#nireland_checkbox").click( function() {
+
+            rebuildRegChart();
+        });
+
+        retrieveAndProcessData();
+
+    </script>
+
+</body>
+</html>

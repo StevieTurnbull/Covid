@@ -1,0 +1,200 @@
+body {
+    background: black;
+    color: white;
+    font-family: 'Spartan', sans-serif;
+    font-size: 2.0em;
+    margin: 0 25px;
+    padding-top: 64px;
+}
+
+/* Bootstrap navbar overrides... */
+.navbar {
+    margin: 0 15px 0 15px;
+    background: rgb(102, 0, 102); /*dark purple*/
+    opacity: 90%;
+}
+
+.navbar.navbar-default.navbar-inverse {
+    background: rgb(102, 0, 102); /*dark purple*/
+    border: 2px groove silver;
+    border-radius: 3px;
+    opacity: 90%;
+}
+
+.navbar-collapse.in {
+    overflow: hidden;
+    max-height: none !important;
+    height: auto !important;
+}
+
+.dropdown-menu {
+    border: 2px groove silver;
+    border-radius: 3px;
+}
+
+#navbarDropdown, .dropdown-menu, #dropdownMenu {
+    background-color: rgb(102, 0, 102); /*dark purple*/
+    font-size: inherit;
+    opacity: 90%;
+}
+
+.navbar.navbar-default.navbar-inverse a, #dropdownMenu a {
+    background: transparent;
+    color: white;
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal;
+    text-shadow: 2px 2px 4px black;
+    opacity: 90%;
+}
+
+.navbar.navbar-default.navbar-inverse a:hover, #dropdownMenu a:hover {
+    background: transparent;
+    color: #7FFFD4;    /*aquamarine*/
+}
+
+.navbar_info {
+    font-size: 1.2em;
+}
+
+.navbar_selected:before {
+    content: "> ";
+}
+
+/* Bootstrap form control overrides... */
+
+.form-inline {
+    margin-bottom: 5px;
+}
+
+.form-control {
+    font-weight: bold;
+    font-size: 1.0em !important;
+    color: cyan;
+    max-width: 33%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: transparent;
+}
+
+.control-label {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* Bootstrap date-picker overrides... */
+
+.datepicker table {
+    font-size: 0.5em;
+}
+
+.datepicker table tr td,
+.datepicker table tr th {
+  width: 25px;
+  height: 25px;
+}
+
+/* A simple loading indication... */
+
+#loading_panel {
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+#loading_panel h3 {
+    display: inline;
+    margin-right: 5px;
+    font-size: 0.7em;
+    color: cyan;
+}
+
+.loader {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    margin-right: 20px;
+    position: relative;
+}
+
+#loader-1:before, #loader-1:after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    border: 10px solid transparent;
+    border-top-color: silver;
+}
+
+#loader-1:before {
+    content: "";
+    z-index: 100;
+    animation: spin 1s infinite;
+}
+
+#loader-1:after {
+    content: "";
+    border: 10px solid rgb(102, 0, 102); /*dark purple*/;
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/* Others... */
+
+.right_align_flex {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#copyright {
+    text-align: right;
+    font-size: 0.5em;
+}
+
+.feature_section {
+    color: cyan;
+    background: darkslategray;
+    border: 2px groove silver;
+    border-radius: 3px;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 40px;
+}
+
+.feature_section h1 {
+    font-size: 0.9em;
+    font-family: 'Rubik', sans-serif;
+    text-shadow: 2px 2px 4px black;
+}
+
+.chart_section {
+    border: 2px groove silver;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.chart_canvas {
+    background: rgb(246, 229, 211); /*ivory - pantone 9225U*/;
+    width: 100%;
+    max-height: 260px;
+}
+
+.controls_section {
+    margin-top: 10px;
+    font-size: 0.6em;
+}
+
+.controls_section input {
+    font-size: 0.6em;
+}
