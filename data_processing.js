@@ -51,6 +51,13 @@ function getChartDateString(d) {
     return d.getDate() + "/" + (d.getMonth() + 1) + "/" + String(d.getFullYear()).substring(2, 4);
 }
 
+function getDateTimeString(d) {
+
+    return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
+           + " " +
+           d.toTimeString().split(" ")[0];
+}
+
 function getRegDataBlock(rawBlock) {
 
     let eng = rawBlock["england"];
@@ -330,8 +337,22 @@ function rebuildRegChart() {
     });
 }
 
+function startLoading() {
+
+    $("#status_panel_text").text("Retrieving data");
+    $("#loader_1").css("visibility", "visible");
+
+}
+
+function stopLoading(msg) {
+
+    $("#status_panel_text").text(msg);
+    $("#loader_1").css("visibility", "hidden");
+}
+
 function retrieveAndProcessData() {
 
+    startLoading();
     updateDatePickers();
 
     rebuildUKChart();
@@ -341,6 +362,7 @@ function retrieveAndProcessData() {
 
     $.getJSON(src, function (rawData) {
 
+        stopLoading("Last updated " + getDateTimeString(new Date(Date.now())));
         buildDataStore(rawData);
 
         updateDatePickers();
@@ -348,6 +370,5 @@ function retrieveAndProcessData() {
         rebuildUKChart();
         rebuildRegChart();
     })
-    .fail(function () { alert("Failed to retrieve data from API"); })
-    .always(function () { $("#loading_panel").css("visibility", "hidden"); });
+    .fail(function () { stopLoading("Failed to retrieve data from API"); })
 }

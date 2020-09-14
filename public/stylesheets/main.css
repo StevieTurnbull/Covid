@@ -95,12 +95,12 @@ body {
 
 /* A simple loading indication... */
 
-#loading_panel {
+#status_panel {
     text-align: right;
     padding-bottom: 10px;
 }
 
-#loading_panel h3 {
+#status_panel_text {
     display: inline;
     margin-right: 5px;
     font-size: 0.7em;
@@ -115,7 +115,7 @@ body {
     position: relative;
 }
 
-#loader-1:before, #loader-1:after {
+#loader_1:before, #loader_1:after {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -124,13 +124,13 @@ body {
     border-top-color: silver;
 }
 
-#loader-1:before {
+#loader_1:before {
     content: "";
     z-index: 100;
     animation: spin 1s infinite;
 }
 
-#loader-1:after {
+#loader_1:after {
     content: "";
     border: 10px solid rgb(102, 0, 102); /*dark purple*/;
 }
