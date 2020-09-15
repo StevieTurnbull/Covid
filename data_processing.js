@@ -341,16 +341,20 @@ function startLoading() {
 
     $("#status_panel_text").text("Retrieving data");
     $("#loader_1").css("visibility", "visible");
-
+    $("#refresh_button").css("pointer-events", "none");
 }
 
 function stopLoading(msg) {
 
     $("#status_panel_text").text(msg);
     $("#loader_1").css("visibility", "hidden");
+    $("#refresh_button").css("pointer-events", "auto");
 }
 
 function retrieveAndProcessData() {
+
+    dataStore.cleanUKDataInfected = [];
+    dataStore.cleanRegDataInfected = [];
 
     startLoading();
     updateDatePickers();
