@@ -43,8 +43,6 @@
 </head>
 
 <body>
-    <a name="top"></a>
-
     <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -76,57 +74,60 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div id="status_panel">
-        <h3 id="status_panel_text">Retrieving data</h3>
-        <span class="loader" id="loader_1"></span>
+    <div class="main_content">
+        
+        <a name="top"></a>        
+        <div id="status_panel">
+            <h3 id="status_panel_text">Retrieving data</h3>
+            <span class="loader" id="loader_1"></span>
+        </div>
+
+        <div class="feature_section">
+            <h1>Infections over time (country-wide)</h1>
+            <div class="chart_section">
+                <canvas class="chart_canvas" id="tm_chart"></canvas>
+            </div>
+            <div class="controls_section" id="tm_controls">
+                <form class="form-inline right_align_flex" method="post">
+                    <label class="control-label">From</label>
+                    <input class="form-control" id="tm_date_from" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                    
+                    <label class="control-label">To</label>
+                    <input class="form-control" id="tm_date_to" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                </form>
+            </div>
+        </div>
+
+        <a name="reg"></a>
+        <div class="feature_section">
+            <h1>Infections over time (regions)</h1>
+            <div class="chart_section">
+                <canvas class="chart_canvas" id="reg_chart"></canvas>
+            </div>
+            <div class="controls_section" id="reg_controls">
+
+                <form class="form-inline" method="post">
+                    <label class="control-label">England</label>
+                    <input type="checkbox" class="form-check-input" id="england_checkbox" checked>
+                    <label class="control-label">Wales</label>
+                    <input type="checkbox" class="form-check-input" id="wales_checkbox">
+                    <label class="control-label">Scotland</label>
+                    <input type="checkbox" class="form-check-input" id="scotland_checkbox">
+                    <label class="control-label">N. Ireland</label>
+                    <input type="checkbox" class="form-check-input" id="nireland_checkbox">
+                </form>
+
+                <form class="form-inline right_align_flex" method="post">
+                    <label class="control-label">From</label>
+                    <input class="form-control" id="reg_date_from" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                    
+                    <label class="control-label">To</label>
+                    <input class="form-control" id="reg_date_to" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                </form>
+            </div>
+        </div>
+        <div id="copyright"/>
     </div>
-
-    <div class="feature_section">
-        <h1>Infections over time (country-wide)</h1>
-        <div class="chart_section">
-            <canvas class="chart_canvas" id="tm_chart"></canvas>
-        </div>
-        <div class="controls_section" id="tm_controls">
-            <form class="form-inline right_align_flex" method="post">
-                <label class="control-label">From</label>
-                <input class="form-control" id="tm_date_from" name="date" placeholder="DD/MM/YYYY" type="text"/>
-                
-                <label class="control-label">To</label>
-                <input class="form-control" id="tm_date_to" name="date" placeholder="DD/MM/YYYY" type="text"/>
-            </form>
-        </div>
-    </div>
-
-    <a name="reg"></a>
-    <div class="feature_section">
-        <h1>Infections over time (regions)</h1>
-        <div class="chart_section">
-            <canvas class="chart_canvas" id="reg_chart"></canvas>
-        </div>
-        <div class="controls_section" id="reg_controls">
-
-            <form class="form-inline" method="post">
-                <label class="control-label">England</label>
-                <input type="checkbox" class="form-check-input" id="england_checkbox" checked>
-                <label class="control-label">Wales</label>
-                <input type="checkbox" class="form-check-input" id="wales_checkbox">
-                <label class="control-label">Scotland</label>
-                <input type="checkbox" class="form-check-input" id="scotland_checkbox">
-                <label class="control-label">N. Ireland</label>
-                <input type="checkbox" class="form-check-input" id="nireland_checkbox">
-            </form>
-
-            <form class="form-inline right_align_flex" method="post">
-                <label class="control-label">From</label>
-                <input class="form-control" id="reg_date_from" name="date" placeholder="DD/MM/YYYY" type="text"/>
-                
-                <label class="control-label">To</label>
-                <input class="form-control" id="reg_date_to" name="date" placeholder="DD/MM/YYYY" type="text"/>
-            </form>
-        </div>
-    </div>
-
-    <div id="copyright"/>
 
     <!-- Initialisation... -->
 

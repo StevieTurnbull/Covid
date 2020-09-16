@@ -96,7 +96,6 @@ body {
 /* A simple loading indication... */
 
 #status_panel {
-    text-align: right;
     padding-bottom: 10px;
 }
 
@@ -159,8 +158,11 @@ body {
 }
 
 #copyright {
-    text-align: right;
     font-size: 0.5em;
+}
+
+.main_content {
+    display: inline-block;
 }
 
 .feature_section {
@@ -182,11 +184,16 @@ body {
     border: 2px groove silver;
     border-radius: 3px;
     padding: 5px;
+    display: inline-block;
 }
 
 .chart_canvas {
     background: rgb(246, 229, 211); /*ivory - pantone 9225U*/;
-    width: 100%;
+    min-width: 800px;
+    width: 800px;
+    max-width: 800px;
+    height: 260px;
+    min-height: 260px;
     max-height: 260px;
 }
 
