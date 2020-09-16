@@ -9,6 +9,9 @@ let dataStore = {
     cleanRegDataInfected: []
 }
 
+let tmChart = null;
+let regChart = null;
+
 function DEBUG_DATASTORE() {
 
     console.log("DATE RANGE START DATE: " + dataStore.startDate.toString() + " END DATE: " + dataStore.endDate.toString());
@@ -234,7 +237,9 @@ function rebuildUKChart() {
 
     let ctx = $("#tm_chart")[0].getContext("2d");
 
-    let myChart = new Chart(ctx, {
+    if (tmChart) tmChart.destroy();
+
+    tmChart = new Chart(ctx, {
         type: "line",
         data: {
             labels: dataSet.xAxisData,
@@ -316,7 +321,9 @@ function rebuildRegChart() {
 
     let ctx = $("#reg_chart")[0].getContext("2d");
 
-    let myChart = new Chart(ctx, {
+    if (regChart) regChart.destroy();
+
+    regChart = new Chart(ctx, {
         type: "line",
         data: {
             labels: dataSets.xAxisData,
