@@ -91,6 +91,7 @@ function getUKDataBlock(rawBlock) {
     }
 
     if (!uk) {
+        // Try to get the whole UK value from the summed regional values...
         let reg = getRegDataBlock(rawBlock);
         if (reg) {
             return { unitedKingdom: reg.england + reg.scotland + reg.wales + reg.nireland }
@@ -125,20 +126,17 @@ function buildDataStore(rawData) {
         let date = getDate(rawBlock);
         if (!date) return;
 
+        // Build our range of dates...
         if (firstTime) {
             startDate = date;
             endDate = date;
             firstTime = false;
         } else {
-            if (date < startDate) {
-                startDate = date;
-            }
-
-            if (date > endDate) {
-                endDate = date;
-            }
+            if (date < startDate) startDate = date;
+            if (date > endDate) endDate = date;
         }
 
+        // Get UK data...
         let ukData = getUKDataBlock(rawBlock);
         if (ukData) {
             ukData.date = date;
@@ -152,6 +150,7 @@ function buildDataStore(rawData) {
             dataStore.cleanUKDataInfected.push(ukData);
         }
 
+        // Get regional data...
         let regData = getRegDataBlock(rawBlock);
         if (regData) {
             regData.date = date;
@@ -187,6 +186,7 @@ function buildDataStore(rawData) {
         }
     });
 
+    // If no data, leave start / end dates as before...
     if (firstTime) return;
 
     dataStore.startDate = startDate;

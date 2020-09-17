@@ -29,16 +29,6 @@
     <!-- Data processing scripts -->
     <script type="text/javascript" src="data_processing.js"></script>
 
-    <!-- Utilities -->
-    <script type="text/javascript">
-        
-        function getYear() {
-            let d = new Date();
-            return d.getYear() + 1900; 
-        }
-
-    </script>
-
     <title>COVID-19 Tracker</title>
 </head>
 
@@ -75,7 +65,7 @@
     </nav>
 
     <div class="main_content">
-        
+
         <a name="top"></a>        
         <div id="status_panel">
             <h3 id="status_panel_text">Retrieving data</h3>
@@ -129,9 +119,15 @@
         <div id="copyright"/>
     </div>
 
-    <!-- Initialisation... -->
-
     <script type="text/javascript">
+
+        function getYear() {
+
+            let d = new Date();
+            return d.getYear() + 1900; 
+        }
+
+        // Initialisation...
 
         // Set copyright text...
         $("#copyright").text("© " + getYear() + " Stevie Turnbull (data source apify.com)");
@@ -145,6 +141,7 @@
         ];
 
         data.forEach(function (e) {
+            
             let options = {
                 format: "dd/mm/yyyy",
                 container: e.container,
@@ -160,45 +157,14 @@
 
         // Callbacks...
 
-        $("#tm_date_from").datepicker().on("changeDate", function () {
-
-            rebuildUKChart();
-        });
-
-        $("#tm_date_to").datepicker().on("changeDate", function () {
-            
-            rebuildUKChart();
-        });
-
-        $("#reg_date_from").datepicker().on("changeDate", function () {
-
-            rebuildRegChart();
-        });
-
-        $("#reg_date_to").datepicker().on("changeDate", function () {
-            
-            rebuildRegChart();
-        });
-
-        $("#england_checkbox").click( function() {
-
-            rebuildRegChart();
-        });
-
-        $("#wales_checkbox").click( function() {
-
-            rebuildRegChart();
-        });
-
-        $("#scotland_checkbox").click( function() {
-
-            rebuildRegChart();
-        });
-
-        $("#nireland_checkbox").click( function() {
-
-            rebuildRegChart();
-        });
+        $("#tm_date_from").datepicker().on("changeDate", function () { rebuildUKChart(); });
+        $("#tm_date_to").datepicker().on("changeDate", function () { rebuildUKChart(); });
+        $("#reg_date_from").datepicker().on("changeDate", function () { rebuildRegChart(); });
+        $("#reg_date_to").datepicker().on("changeDate", function () {  rebuildRegChart(); });
+        $("#england_checkbox").click( function() { rebuildRegChart(); });
+        $("#wales_checkbox").click( function() { rebuildRegChart(); });
+        $("#scotland_checkbox").click( function() { rebuildRegChart(); });
+        $("#nireland_checkbox").click( function() { rebuildRegChart(); });
 
         retrieveAndProcessData();
 
