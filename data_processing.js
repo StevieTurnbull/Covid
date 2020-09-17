@@ -1,5 +1,9 @@
 // Main processed data store...
-// Ideally this would be replaced by a SQL database of some kind.
+// TODO: 1) Stringify JSON data and add to local storage
+//          (window.localStorage...) following successful retrieval
+//       2) De-stringify JSON data and rebuild data store when page
+//          loads for the first time
+//       3) Add 'last updated' attribute to data store
 
 let dataStore = {
 
@@ -11,18 +15,6 @@ let dataStore = {
 
 let tmChart = null;
 let regChart = null;
-
-function DEBUG_DATASTORE() {
-
-    console.log("DATE RANGE START DATE: " + dataStore.startDate.toString() + " END DATE: " + dataStore.endDate.toString());
-    console.log("UK entries: " + dataStore.cleanUKDataInfected.length + " Regional entries: " + dataStore.cleanRegDataInfected.length);
-
-    // let text = JSON.stringify(dataStore, null, 2);
-    // let uriContent = "data:text/json;charset=utf-8," + encodeURIComponent(text);
-    
-    // let wnd = window.open("about:blank", "", "_blank");
-    // wnd.document.write(text);
-}
 
 // Functions...
 
