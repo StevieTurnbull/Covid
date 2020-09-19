@@ -83,7 +83,7 @@ function getCountryDataBlock(rawBlock) {
     }
 
     if (!totalInfected) {
-        // Try to get the whole UK value from the summed regional values...
+        // Try to get the whole country value from the summed regional values...
         let reg = getRegionsDataBlock(rawBlock);
         if (reg) {
             return { totalInfected: reg.england + reg.scotland + reg.wales + reg.nireland }
@@ -100,7 +100,7 @@ function getCountryDataBlock(rawBlock) {
 
 function addCountryAndRegionalData(ds, blockDate, rawBlock) {
 
-    // Get UK data...
+    // Get country-wide data...
     let countryData = getCountryDataBlock(rawBlock);
     if (countryData) {
         countryData.date = blockDate;
