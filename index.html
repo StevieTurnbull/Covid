@@ -26,8 +26,11 @@
 
     <link rel="stylesheet" href="./public/stylesheets/main.css">
 
-    <!-- Data processing scripts -->
+    <!-- Main data processing script -->
     <script type="text/javascript" src="data_processing.js"></script>
+
+    <!-- Country data formats and adaptation scripts -->
+    <script type="text/javascript" src="countries.js"></script>
 
     <title>COVID-19 Tracker</title>
 </head>
@@ -157,14 +160,14 @@
 
         // Callbacks...
 
-        $("#tm_date_from").datepicker().on("changeDate", function () { rebuildUKChart(); });
-        $("#tm_date_to").datepicker().on("changeDate", function () { rebuildUKChart(); });
-        $("#reg_date_from").datepicker().on("changeDate", function () { rebuildRegChart(); });
-        $("#reg_date_to").datepicker().on("changeDate", function () {  rebuildRegChart(); });
-        $("#england_checkbox").click( function() { rebuildRegChart(); });
-        $("#wales_checkbox").click( function() { rebuildRegChart(); });
-        $("#scotland_checkbox").click( function() { rebuildRegChart(); });
-        $("#nireland_checkbox").click( function() { rebuildRegChart(); });
+        $("#tm_date_from").datepicker().on("changeDate", function () { rebuildCountryChart(); });
+        $("#tm_date_to").datepicker().on("changeDate", function () { rebuildCountryChart(); });
+        $("#reg_date_from").datepicker().on("changeDate", function () { rebuildRegionsChart(); });
+        $("#reg_date_to").datepicker().on("changeDate", function () {  rebuildRegionsChart(); });
+        $("#england_checkbox").click( function() { rebuildRegionsChart(); });
+        $("#wales_checkbox").click( function() { rebuildRegionsChart(); });
+        $("#scotland_checkbox").click( function() { rebuildRegionsChart(); });
+        $("#nireland_checkbox").click( function() { rebuildRegionsChart(); });
 
         retrieveAndProcessData();
 
