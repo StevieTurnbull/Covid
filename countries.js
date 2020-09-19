@@ -43,7 +43,7 @@ const COUNTRY_DATA = [
 
 // Process the regional data from the raw data block...
 
-function getRegionsDataBlock(rawBlock) {
+function getRegionsDataBlock(rawBlock, countryInfo) {
 
     let eng = rawBlock["england"];
     if (!eng) {
@@ -75,7 +75,7 @@ function getRegionsDataBlock(rawBlock) {
 
 // Process the country data from the raw data block...
 
-function getCountryDataBlock(rawBlock) {
+function getCountryDataBlock(rawBlock, countryInfo) {
 
     let totalInfected = rawBlock["infected"];
     if (!totalInfected) {
@@ -84,7 +84,7 @@ function getCountryDataBlock(rawBlock) {
 
     if (!totalInfected) {
         // Try to get the whole country value from the summed regional values...
-        let reg = getRegionsDataBlock(rawBlock);
+        let reg = getRegionsDataBlock(rawBlock, countryInfo);
         if (reg) {
             return { totalInfected: reg.england + reg.scotland + reg.wales + reg.nireland }
         }
@@ -96,12 +96,13 @@ function getCountryDataBlock(rawBlock) {
              totalInfected: totalInfected };
 }
 
-// Add country and regional data into the supplied datastore...
+// Add country and regional data into the supplied datastore,
+// adapting based on the country info provided...
 
-function addCountryAndRegionalData(ds, blockDate, rawBlock) {
+function addCountryAndRegionalData(ds, blockDate, rawBlock, countryInfo) {
 
     // Get country-wide data...
-    let countryData = getCountryDataBlock(rawBlock);
+    let countryData = getCountryDataBlock(rawBlock, countryInfo);
     if (countryData) {
         countryData.date = blockDate;
 
@@ -115,7 +116,7 @@ function addCountryAndRegionalData(ds, blockDate, rawBlock) {
     }
 
     // Get regional data...
-    let regData = getRegionsDataBlock(rawBlock);
+    let regData = getRegionsDataBlock(rawBlock, countryInfo);
     if (regData) {
         regData.date = blockDate;
 
@@ -132,7 +133,7 @@ function addCountryAndRegionalData(ds, blockDate, rawBlock) {
     // as there are only a few good data points from the chosen provider.
     // So we produce a VERY rough estimate based on UK population...
     // Source: https://en.wikipedia.org/wiki/Countries_of_the_United_Kingdom_by_population
-    if (countryData && !regData) {
+    if (countryInfo.name === "United Kingdom" && countryData && !regData) {
         let countryValue = countryData.totalInfected;
         let block = { date: blockDate,
                       england: Math.ceil(countryValue * (84.3 / 100.0)),        // 84.3% of UK population
