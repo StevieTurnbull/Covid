@@ -26,11 +26,11 @@
 
     <link rel="stylesheet" href="./public/stylesheets/main.css">
 
-    <!-- Main data processing script -->
-    <script type="text/javascript" src="data_processing.js"></script>
-
     <!-- Country data formats and adaptation scripts -->
     <script type="text/javascript" src="countries.js"></script>
+
+    <!-- Main data processing script -->
+    <script type="text/javascript" src="data_processing.js"></script>
 
     <title>COVID-19 Tracker</title>
 </head>
@@ -100,14 +100,16 @@
             <div class="controls_section" id="reg_controls">
 
                 <form class="form-inline" method="post">
-                    <label class="control-label">England</label>
-                    <input type="checkbox" class="form-check-input" id="england_checkbox" checked>
-                    <label class="control-label">Wales</label>
-                    <input type="checkbox" class="form-check-input" id="wales_checkbox">
-                    <label class="control-label">Scotland</label>
-                    <input type="checkbox" class="form-check-input" id="scotland_checkbox">
-                    <label class="control-label">N. Ireland</label>
-                    <input type="checkbox" class="form-check-input" id="nireland_checkbox">
+                    <span id="reg_checkbox_container">
+                        <label class="control-label">England</label>
+                        <input type="checkbox" class="form-check-input" id="england_checkbox" checked>
+                        <label class="control-label">Wales</label>
+                        <input type="checkbox" class="form-check-input" id="wales_checkbox">
+                        <label class="control-label">Scotland</label>
+                        <input type="checkbox" class="form-check-input" id="scotland_checkbox">
+                        <label class="control-label">N. Ireland</label>
+                        <input type="checkbox" class="form-check-input" id="nireland_checkbox">
+                    </span>
                 </form>
 
                 <form class="form-inline right_align_flex" method="post">

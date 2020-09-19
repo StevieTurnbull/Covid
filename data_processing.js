@@ -19,6 +19,34 @@ let regChart = null;
 
 // Functions...
 
+function initialiseRegionCheckboxes() {
+
+    let countryBlock = COUNTRY_DATA[dataStore.selectedCountry];
+    let checkboxContainer = $("#reg_checkbox_container");
+
+    // checkboxContainer.empty();   // Remove existing checkboxes...
+
+    // TODO: Make #reg_checkbox_container a table
+    //       Add tr's, each containing 3 td's - each td contains the label and checkbox...
+
+    // let firstTime = true;
+
+    // countryBlock.regions.forEach(function (regionData) {
+
+    //     checkboxContainer.append("<label class='control-label'>" + regionData.displayName + " </label>");
+
+    //     let cbString = "<input type='checkbox' class='form-check-input'";
+    //     if (firstTime) {
+    //         cbString += " checked>"
+    //         firstTime = false;
+    //     } else {
+    //         cbString += ">";
+    //     }
+
+    //     checkboxContainer.append(cbString);
+    // });
+}
+
 function updateDatePickers() {
 
     let endDatePlus1Day = new Date();
@@ -186,7 +214,9 @@ function retrieveAndProcessData() {
     dataStore.cleanCountryDataInfected = [];
     dataStore.cleanRegDataInfected = [];
 
-    startLoading(COUNTRYDATA[dataStore.selectedCountry].name);
+    initialiseRegionCheckboxes();
+
+    startLoading(COUNTRY_DATA[dataStore.selectedCountry].name);
     updateDatePickers();
 
     rebuildCountryChart();
@@ -196,7 +226,7 @@ function retrieveAndProcessData() {
 
     $.getJSON(src, function (rawData) {
 
-        stopLoading(COUNTRYDATA[dataStore.selectedCountry].name + ": last updated " + getDateTimeString(new Date(Date.now())));
+        stopLoading(COUNTRY_DATA[dataStore.selectedCountry].name + ": last updated " + getDateTimeString(new Date(Date.now())));
         buildDataStore(rawData);
 
         updateDatePickers();
@@ -204,5 +234,5 @@ function retrieveAndProcessData() {
         rebuildCountryChart();
         rebuildRegionsChart();
     })
-    .fail(function () { stopLoading("Failed to retrieve " + COUNTRYDATA[dataStore.selectedCountry].name + " data from API"); })
+    .fail(function () { stopLoading("Failed to retrieve " + COUNTRY_DATA[dataStore.selectedCountry].name + " data from API"); })
 }

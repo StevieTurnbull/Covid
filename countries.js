@@ -1,7 +1,7 @@
 // Master data source for countries and their regions
-// - also defines the data source
+// - also defines the data source for each country...
 
-const COUNTRYDATA = [
+const COUNTRY_DATA = [
     {
         name: "United Kingdom",
         dataSource: "https://api.apify.com/v2/datasets/K1mXdufnpvr53AFk6/items?format=json&clean=1",
@@ -38,6 +38,8 @@ const COUNTRYDATA = [
         ]
     }
 ];
+
+// Functions...
 
 // Process the regional data from the raw data block...
 
