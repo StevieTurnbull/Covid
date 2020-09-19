@@ -19,22 +19,23 @@ const COUNTRY_DATA = [
         countryDataKeys: [ "infected" ],
         regions: [
             { displayName: "South Holland", dataKeys: [ "Zuid-Holland" ] },
-            { displayName: "North Brabant", dataKeys: [ "Noord-Brabant" ] },
             { displayName: "North Holland", dataKeys: [ "Noord-Holland" ] },
+            { displayName: "North Brabant", dataKeys: [ "Noord-Brabant" ] },
             { displayName: "Gelderland", dataKeys: [ "Gelderland" ] },
             { displayName: "Limburg", dataKeys: [ "Limburg" ] },
             { displayName: "Utrecht", dataKeys: [ "Utrecht" ] },
             { displayName: "Overijssel", dataKeys: [ "Overijssel" ] },
-            { displayName: "Aruba", dataKeys: [ "Aruba" ] },
             { displayName: "Flevoland", dataKeys: [ "Flevoland" ] },
             { displayName: "Zeeland", dataKeys: [ "Zeeland" ] },
             { displayName: "Friesland", dataKeys: [ "Friesland" ] },
-            { displayName: "Unknown", dataKeys: [ "Unknown" ] },
             { displayName: "Drenthe", dataKeys: [ "Drenthe" ] },
             { displayName: "Groningen", dataKeys: [ "Groningen" ] },
+
+            { displayName: "Aruba", dataKeys: [ "Aruba" ] },
             { displayName: "Saint Martin", dataKeys: [ "Sint Maarten" ] },
             { displayName: "Curacao", dataKeys: [ "Curacao" ] },
-            { displayName: "Bonaire, Sint Eustatius and Saba", dataKeys: [ "Bonaire, Sint Eustatius and Saba" ] }
+            { displayName: "Bonaire, Sint Eustatius and Saba", dataKeys: [ "Bonaire, Sint Eustatius and Saba" ] },
+            { displayName: "Unknown", dataKeys: [ "Unknown" ] }
         ]
     }
 ];
@@ -77,9 +78,11 @@ function getRegionsDataBlock(rawBlock, countryInfo) {
 
 function getCountryDataBlock(rawBlock, countryInfo) {
 
-    let totalInfected = rawBlock["infected"];
-    if (!totalInfected) {
-        totalInfected = rawBlock["totalInfected"];
+    let totalInfected = null;
+
+    for (let i = 0; i < countryInfo.countryDataKeys.length; ++i) {
+        totalInfected = rawBlock[countryInfo.countryDataKeys[i]];
+        if (totalInfected) break;
     }
 
     if (!totalInfected) {
