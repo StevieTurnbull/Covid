@@ -222,9 +222,7 @@ function retrieveAndProcessData() {
     rebuildCountryChart();
     rebuildRegionsChart();
 
-    let src = "https://api.apify.com/v2/datasets/K1mXdufnpvr53AFk6/items?format=json&clean=1";
-
-    $.getJSON(src, function (rawData) {
+    $.getJSON(COUNTRY_DATA[dataStore.selectedCountry].dataSource, function (rawData) {
 
         stopLoading(COUNTRY_DATA[dataStore.selectedCountry].name + ": last updated " + getDateTimeString(new Date(Date.now())));
         buildDataStore(rawData);
