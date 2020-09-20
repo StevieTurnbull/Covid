@@ -42,36 +42,56 @@ const COUNTRY_DATA = [
 
 // Functions...
 
-// Process the regional data from the raw data block...
+// Create lookup table from regional info: data key to display name...
 
-function getRegionsDataBlock(rawBlock, countryInfo) {
+function getRegionLookup(countryInfo) {
 
-    let eng = rawBlock["england"];
-    if (!eng) {
-        eng = rawBlock["englandConfirmed"];
+    let lookup = {};
+    countryInfo.regions.forEach(function (region) {
+
+        region.dataKeys.forEach(function (dataKey) {
+
+            lookup[dataKey] = region.displayName;
+        });
+    });
+
+    return lookup;
+}
+
+// Process the regional data from the raw data block from top-level...
+
+function getRegionDataFromTopLevel(rawBlock, countryInfo, dataKeyToDisplayNameLookup) {
+
+    let regionData = {};
+
+    for (let key in dataKeyToDisplayNameLookup) {
+
+        if (!rawBlock[key]) continue;
+
+        regionData[dataKeyToDisplayNameLookup[key]] = rawBlock[key]; 
     }
 
-    let sco = rawBlock["scottland"];
-    if (!sco) {
-        sco = rawBlock["scottlandConfirmed"];
-    }
+    if (Object.keys(regionData).length !== countryInfo.regions.length) return null;
 
-    let wal = rawBlock["wales"];
-    if (!wal) {
-        wal = rawBlock["walesConfirmed"];
-    }
+    return regionData;
+}
 
-    let nir = rawBlock["ireland"];
-    if (!nir) {
-        nir = rawBlock["northernIrelandConfirmed"];
-    }
+// Process the regional data from the raw data block when presented in an array...
 
-    if (!eng || !sco || !wal || !nir) return null;
+function getRegionDataFromArray(rawArray, countryInfo, dataKeyToDisplayNameLookup) {
 
-    return { england: eng,
-             scotland: sco,
-             wales: wal,
-             nireland: nir };
+    let regionData = {};
+    
+    rawArray.forEach(function (currentRawEntry) {
+
+        if ((currentRawEntry.region in dataKeyToDisplayNameLookup) && currentRawEntry.infectedCount) {
+            regionData[dataKeyToDisplayNameLookup[currentRawEntry.region]] = currentRawEntry.infectedCount;
+        }
+    });
+
+    if (Object.keys(regionData).length !== countryInfo.regions.length) return null;
+
+    return regionData;
 }
 
 // Process the country data from the raw data block...
@@ -85,24 +105,17 @@ function getCountryDataBlock(rawBlock, countryInfo) {
         if (totalInfected) break;
     }
 
-    if (!totalInfected) {
-        // Try to get the whole country value from the summed regional values...
-        let reg = getRegionsDataBlock(rawBlock, countryInfo);
-        if (reg) {
-            return { totalInfected: reg.england + reg.scotland + reg.wales + reg.nireland }
-        }
+    if (!totalInfected) return null;
 
-        return null;
-    }
-
-    return { date: null,
-             totalInfected: totalInfected };
+    return { totalInfected: totalInfected };
 }
 
 // Add country and regional data into the supplied datastore,
 // adapting based on the country info provided...
 
 function addCountryAndRegionalData(ds, blockDate, rawBlock, countryInfo) {
+
+    let lookup = getRegionLookup(countryInfo);
 
     // Get country-wide data...
     let countryData = getCountryDataBlock(rawBlock, countryInfo);
@@ -119,8 +132,16 @@ function addCountryAndRegionalData(ds, blockDate, rawBlock, countryInfo) {
     }
 
     // Get regional data...
-    let regData = getRegionsDataBlock(rawBlock, countryInfo);
+    let regData = getRegionDataFromTopLevel(rawBlock, countryInfo, lookup);
+    let sumRegionalValues = 0;
+
     if (regData) {
+
+        // Sum regional values...
+        for (let key in regData) {
+            sumRegionalValues += regData[key];
+        }
+
         regData.date = blockDate;
 
         // Make sure we only have the most recent data for a particular day...
@@ -132,6 +153,21 @@ function addCountryAndRegionalData(ds, blockDate, rawBlock, countryInfo) {
         ds.cleanRegDataInfected.push(regData);
     }
 
+    // If we've got regional data but not country data, calculate the country data
+    // by summing the regional values...
+    if (regData && !countryData) {
+
+        let countryBlock = { date: blockDate, totalInfected: sumRegionalValues };
+
+        // Make sure we only have the most recent data for a particular day...
+        let len = ds.cleanCountryDataInfected.length;
+        if (len > 0 && ds.cleanCountryDataInfected[len - 1].date.getTime() == blockDate.getTime()) {
+            ds.cleanCountryDataInfected.pop();
+        }
+
+        ds.cleanCountryDataInfected.push(countryBlock);
+    }
+
     // This is a workaround to ensure display of regional data
     // as there are only a few good data points from the chosen provider.
     // So we produce a VERY rough estimate based on UK population...
@@ -139,10 +175,10 @@ function addCountryAndRegionalData(ds, blockDate, rawBlock, countryInfo) {
     if (countryInfo.name === "United Kingdom" && countryData && !regData) {
         let countryValue = countryData.totalInfected;
         let block = { date: blockDate,
-                      england: Math.ceil(countryValue * (84.3 / 100.0)),        // 84.3% of UK population
-                      scotland: Math.ceil(countryValue * (8.2 / 100.0)),        // 8.2%
-                      wales: Math.ceil(countryValue * (4.7 / 100.0)),           // 4.7%
-                      nireland: Math.ceil(countryValue * (2.8 / 100.0)) };      // 2.8%
+                      "England": Math.ceil(countryValue * (84.3 / 100.0)),         // 84.3% of UK population,
+                      "Scotland": Math.ceil(countryValue * (8.2 / 100.0)),         // 8.2%
+                      "Wales": Math.ceil(countryValue * (4.7 / 100.0)),            // 4.7%
+                      "N. Ireland": Math.ceil(countryValue * (2.8 / 100.0)) };     // 2.8%
 
         // Make sure we only have the most recent data for a particular day...
         let len = ds.cleanRegDataInfected.length;
@@ -214,10 +250,10 @@ function generateRegionDataSets(ds, startDate, endDate, regions) {
 
         axesData.xAxisData.push(getChartDateString(block.date));
 
-        if (regions.england) streams[0].data.push(block.england);
-        if (regions.wales) streams[1].data.push(block.wales);
-        if (regions.scotland) streams[2].data.push(block.scotland);
-        if (regions.nireland) streams[3].data.push(block.nireland);
+        if (regions.england) streams[0].data.push(block["England"]);
+        if (regions.wales) streams[1].data.push(block["Wales"]);
+        if (regions.scotland) streams[2].data.push(block["Scotland"]);
+        if (regions.nireland) streams[3].data.push(block["N. Ireland"]);
     });
 
     streams.forEach(function(s) {
