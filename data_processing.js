@@ -160,14 +160,15 @@ function rebuildRegionsChart() {
     let startDate = $("#reg_date_from").datepicker("getDate");
     let endDate = $("#reg_date_to").datepicker("getDate");
 
-    let regions = {
-        england: $("#england_checkbox").is(":checked"),
-        wales: $("#wales_checkbox").is(":checked"),
-        scotland: $("#scotland_checkbox").is(":checked"),
-        nireland: $("#nireland_checkbox").is(":checked")
-    }
+    let selectedCountryBlock = COUNTRY_DATA[dataStore.selectedCountry];
 
-    let dataSets = generateRegionDataSets(dataStore, startDate, endDate, regions);
+    let regionArray = [];
+    if ($("#england_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("England", selectedCountryBlock));
+    if ($("#wales_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("Wales", selectedCountryBlock));
+    if ($("#scotland_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("Scotland", selectedCountryBlock));
+    if ($("#nireland_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("N. Ireland", selectedCountryBlock));
+
+    let dataSets = generateRegionDataSets(dataStore, startDate, endDate, regionArray);
 
     let ctx = $("#reg_chart")[0].getContext("2d");
 
