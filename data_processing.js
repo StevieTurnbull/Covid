@@ -34,7 +34,7 @@ function initialiseRegionCheckboxes(countryInfo) {
 
     //     checkboxContainer.append("<label class='control-label'>" + regionData.displayName + " </label>");
 
-    //     let cbString = "<input type='checkbox' class='form-check-input'";
+    //     let cbString = "<input type='checkbox' class='form-check-input' data-name='" + regionData.displayName + "'";
     //     if (firstTime) {
     //         cbString += " checked>"
     //         firstTime = false;
