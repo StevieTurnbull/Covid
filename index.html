@@ -59,7 +59,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#" id="navbarDropdown" role="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select country</a>
                         <ul id="dropdownMenu" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="navbar_selected" href="#">United Kingdom</a></li>
+                            <!-- Populated dynamically -->
                         </ul>
                     </li>
                     <li><a id="refresh_button" onclick="retrieveAndProcessData()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a></li>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="feature_section">
-            <h1>Infections over time (country-wide)</h1>
+            <h1 class="feature_section_country">XXXX</h1><h1>Infections over time (country-wide)</h1>
             <div class="chart_section">
                 <canvas class="chart_canvas" id="tm_chart"></canvas>
             </div>
@@ -94,14 +94,16 @@
 
         <a name="reg"></a>
         <div class="feature_section">
-            <h1>Infections over time (regions)</h1>
+            <h1 class="feature_section_country">XXXX</h1><h1>Infections over time (regions)</h1>
             <div class="chart_section">
                 <canvas class="chart_canvas" id="reg_chart"></canvas>
             </div>
             <div class="controls_section" id="reg_controls">
 
                 <form class="form-inline" method="post">
-                    <div class="checkbox_container" id="reg_checkbox_container"></div>
+                    <div class="checkbox_container" id="reg_checkbox_container">
+                        <!-- Populated dynamically -->
+                    </div>
                 </form>
 
                 <form class="form-inline right_align_flex" method="post">

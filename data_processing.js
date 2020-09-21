@@ -19,6 +19,38 @@ let regChart = null;
 
 // Functions...
 
+// Build the country menu...
+
+function buildCountryMenu() {
+
+    let menuContainer = $("#dropdownMenu");
+    let countryId = 0;
+    let html = "";
+
+    COUNTRY_DATA.forEach(function (country) {
+
+        html += "<li><a class='country_selector";
+
+        if (countryId === dataStore.selectedCountry) html += " navbar_selected";
+
+        html += "' data-id='" + countryId + "' href='#'>";
+        html += country.name;
+        html += "</a></li>";
+
+        ++countryId;
+    });
+
+    menuContainer.append(html);
+
+    $(".country_selector").click( function() {
+
+        $(".country_selector").removeClass("navbar_selected");
+        $(this).addClass("navbar_selected");
+
+        switchCountry($(this).data("id"));
+    });
+}
+
 // Build region checkboxes for the selected country...
 
 function initialiseRegionCheckboxes(countryInfo) {
@@ -47,6 +79,8 @@ function initialiseRegionCheckboxes(countryInfo) {
     $(".region_checkbox").click( function() { rebuildRegionsChart(); });
 }
 
+// Update the date pickers with values from the data store...
+
 function updateDatePickers() {
 
     let endDatePlus1Day = new Date();
@@ -70,10 +104,14 @@ function updateDatePickers() {
     $("#reg_date_to").datepicker('update', dataStore.endDate);
 }
 
+// Get a date string for use on the charts...
+
 function getChartDateString(d) {
 
     return d.getDate() + "/" + (d.getMonth() + 1) + "/" + String(d.getFullYear()).substring(2, 4);
 }
+
+// Get a date string for use elsewhere...
 
 function getDateTimeString(d) {
 
@@ -81,6 +119,8 @@ function getDateTimeString(d) {
            + " " +
            d.toTimeString().split(" ")[0];
 }
+
+// Get date from the apify raw data block...
 
 function getDate(rawBlock) {
 
@@ -92,6 +132,8 @@ function getDate(rawBlock) {
 
     return new Date(datePart);
 }
+
+// Build the data store: date range and populate...
 
 function buildDataStore(rawData, countryInfo) {
 
@@ -124,6 +166,8 @@ function buildDataStore(rawData, countryInfo) {
     dataStore.endDate = endDate;
 }
 
+// Rebuild the country chart...
+
 function rebuildCountryChart() {
 
     let startDate = $("#tm_date_from").datepicker("getDate");
@@ -155,6 +199,8 @@ function rebuildCountryChart() {
         }
     });
 }
+
+// Rebuild the regions chart...
 
 function rebuildRegionsChart() {
 
@@ -198,25 +244,44 @@ function rebuildRegionsChart() {
     });
 }
 
+// Reflect state: loading...
+
 function startLoading(countryName) {
 
     $("#status_panel_text").text("Retrieving " + countryName + " data");
     $("#loader_1").css("visibility", "visible");
     $("#refresh_button").css("pointer-events", "none");
+    $(".country_selector").css("pointer-events", "none");
 }
+
+// Reflect state: loading completed...
 
 function stopLoading(msg) {
 
     $("#status_panel_text").text(msg);
     $("#loader_1").css("visibility", "hidden");
     $("#refresh_button").css("pointer-events", "auto");
+    $(".country_selector").css("pointer-events", "auto");
 }
 
-function initialise() {
+// Handle country change...
 
+function switchCountry(countryId) {
+
+    dataStore.selectedCountry = countryId;
     initialiseRegionCheckboxes(COUNTRY_DATA[dataStore.selectedCountry]);
     retrieveAndProcessData();
 }
+
+// Entry point...
+
+function initialise() {
+
+    buildCountryMenu();
+    switchCountry(dataStore.selectedCountry);
+}
+
+// Get data from API and populate charts...
 
 function retrieveAndProcessData() {
 
@@ -233,7 +298,7 @@ function retrieveAndProcessData() {
 
     $.getJSON(selectedCountryBlock.dataSource, function (rawData) {
 
-        stopLoading(selectedCountryBlock.name + ": last updated " + getDateTimeString(new Date(Date.now())));
+        stopLoading("Last updated " + getDateTimeString(new Date(Date.now())));
         buildDataStore(rawData, selectedCountryBlock);
 
         updateDatePickers();
