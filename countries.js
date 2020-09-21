@@ -31,10 +31,10 @@ const COUNTRY_DATA = [
             { displayName: "Drenthe", displayColour: "#00ffff", dataKeys: [ "Drenthe" ] },
             { displayName: "Groningen", displayColour: "#0000ff", dataKeys: [ "Groningen" ] },
 
+            { displayName: "Bonaire, Sint Eustatius and Saba", displayColour: "#ffc0cb", dataKeys: [ "Bonaire, Sint Eustatius and Saba" ] },
             { displayName: "Aruba", displayColour: "#ff00ff", dataKeys: [ "Aruba" ] },
             { displayName: "Saint Martin", displayColour: "#f0e68c", dataKeys: [ "Sint Maarten" ] },
             { displayName: "Curacao", displayColour: "#6495ed", dataKeys: [ "Curacao" ] },
-            { displayName: "Bonaire, Sint Eustatius and Saba", displayColour: "#ffc0cb", dataKeys: [ "Bonaire, Sint Eustatius and Saba" ] },
             { displayName: "Unknown", displayColour: "#000000", dataKeys: [ "Unknown" ] }
         ]
     }

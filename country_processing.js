@@ -110,7 +110,7 @@ function addCountryAndRegionalData(ds, blockDate, rawBlock, countryInfo) {
     let regData = null;
     if (countryInfo.name === "United Kingdom")
         regData = getRegionDataFromTopLevel(rawBlock, countryInfo, lookup);
-    else if (countryInfo.name === "Netherlands")
+    else if (countryInfo.name === "Netherlands" && rawBlock.infectedByRegion)
         regData = getRegionDataFromArray(rawBlock.infectedByRegion, countryInfo, lookup);
 
     let sumRegionalValues = 0;
