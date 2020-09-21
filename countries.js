@@ -1,6 +1,8 @@
 // Master data source for countries and their regions
 // - also defines the data source for each country...
 
+// Visually distinct colours for each region generated curtesy of https://mokole.com/palette.html
+
 const COUNTRY_DATA = [
     {
         name: "United Kingdom",
