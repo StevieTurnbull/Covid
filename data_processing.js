@@ -11,7 +11,7 @@ let dataStore = {
     endDate: new Date(),
     cleanCountryDataInfected: [],
     cleanRegDataInfected: [],
-    selectedCountry: 0
+    selectedCountry: 1
 }
 
 let tmChart = null;
@@ -63,9 +63,9 @@ function initialiseRegionCheckboxes(countryInfo) {
 
     countryInfo.regions.forEach(function (regionData) {
 
-        html += "<span><label class='control-label'>" + regionData.displayName + " </label>"
+        html += "<span><label class='control_label'>" + regionData.displayName + " </label>"
              +
-             "<input type='checkbox' class='form-check-input region_checkbox' data-name='" + regionData.displayName + "'";
+             "<input type='checkbox' class='region_checkbox' data-name='" + regionData.displayName + "'";
 
         if (firstTime) {
             html += " checked></span>"
@@ -246,9 +246,9 @@ function rebuildRegionsChart() {
 
 // Reflect state: loading...
 
-function startLoading(countryName) {
+function startLoading() {
 
-    $("#status_panel_text").text("Retrieving " + countryName + " data");
+    $("#status_panel_text").text("Retrieving data");
     $("#loader_1").css("visibility", "visible");
     $("#refresh_button").css("pointer-events", "none");
     $(".country_selector").css("pointer-events", "none");
@@ -269,7 +269,11 @@ function stopLoading(msg) {
 function switchCountry(countryId) {
 
     dataStore.selectedCountry = countryId;
-    initialiseRegionCheckboxes(COUNTRY_DATA[dataStore.selectedCountry]);
+
+    let countryData = COUNTRY_DATA[dataStore.selectedCountry];
+
+    $(".feature_section_country").text(countryData.name + ":");
+    initialiseRegionCheckboxes(countryData);
     retrieveAndProcessData();
 }
 
@@ -290,7 +294,7 @@ function retrieveAndProcessData() {
 
     let selectedCountryBlock = COUNTRY_DATA[dataStore.selectedCountry];
 
-    startLoading(selectedCountryBlock.name);
+    startLoading();
     updateDatePickers();
 
     rebuildCountryChart();
