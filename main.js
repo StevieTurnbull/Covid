@@ -11,7 +11,7 @@ let dataStore = {
     endDate: new Date(),
     cleanCountryDataInfected: [],
     cleanRegDataInfected: [],
-    selectedCountry: 1
+    selectedCountry: 0
 }
 
 let tmChart = null;
