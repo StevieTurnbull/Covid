@@ -76,8 +76,11 @@ body {
     background: transparent;
 }
 
+.form-check-input {
+    vertical-align: text-bottom;
+}
+
 .control-label {
-    padding-left: 5px;
     padding-right: 5px;
 }
 
@@ -190,18 +193,26 @@ body {
 .chart_canvas {
     background: rgb(246, 229, 211); /*ivory - pantone 9225U*/;
     min-width: 800px;
-    width: 800px;
     max-width: 800px;
-    height: 260px;
     min-height: 260px;
     max-height: 260px;
 }
 
 .controls_section {
-    margin-top: 10px;
+    margin-top: 5px;
     font-size: 0.6em;
 }
 
 .controls_section input {
     font-size: 0.6em;
+}
+
+.checkbox_container {
+    min-width: 800px;
+    max-width: 800px;
+    padding-bottom: 5px;
+}
+
+.checkbox_container span {
+    margin-right: 10px;
 }

@@ -101,16 +101,7 @@
             <div class="controls_section" id="reg_controls">
 
                 <form class="form-inline" method="post">
-                    <span id="reg_checkbox_container">
-                        <label class="control-label">England</label>
-                        <input type="checkbox" class="form-check-input" id="england_checkbox" checked>
-                        <label class="control-label">Wales</label>
-                        <input type="checkbox" class="form-check-input" id="wales_checkbox">
-                        <label class="control-label">Scotland</label>
-                        <input type="checkbox" class="form-check-input" id="scotland_checkbox">
-                        <label class="control-label">N. Ireland</label>
-                        <input type="checkbox" class="form-check-input" id="nireland_checkbox">
-                    </span>
+                    <div class="checkbox_container" id="reg_checkbox_container"></div>
                 </form>
 
                 <form class="form-inline right_align_flex" method="post">
@@ -161,18 +152,13 @@
         // Set default font colour for Chart.js...
         Chart.defaults.global.defaultFontColor = 'black';
 
-        // Callbacks...
-
+        // Date picker callbacks...
         $("#tm_date_from").datepicker().on("changeDate", function () { rebuildCountryChart(); });
         $("#tm_date_to").datepicker().on("changeDate", function () { rebuildCountryChart(); });
         $("#reg_date_from").datepicker().on("changeDate", function () { rebuildRegionsChart(); });
         $("#reg_date_to").datepicker().on("changeDate", function () {  rebuildRegionsChart(); });
-        $("#england_checkbox").click( function() { rebuildRegionsChart(); });
-        $("#wales_checkbox").click( function() { rebuildRegionsChart(); });
-        $("#scotland_checkbox").click( function() { rebuildRegionsChart(); });
-        $("#nireland_checkbox").click( function() { rebuildRegionsChart(); });
 
-        retrieveAndProcessData();
+        initialise();
 
     </script>
 

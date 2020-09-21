@@ -19,31 +19,32 @@ let regChart = null;
 
 // Functions...
 
+// Build region checkboxes for the selected country...
+
 function initialiseRegionCheckboxes(countryInfo) {
 
     let checkboxContainer = $("#reg_checkbox_container");
+    checkboxContainer.empty();   // Remove existing checkboxes...
 
-    // checkboxContainer.empty();   // Remove existing checkboxes...
+    let firstTime = true;
+    let html = "";
 
-    // TODO: Make #reg_checkbox_container a table
-    //       Add tr's, each containing 3 td's - each td contains the label and checkbox...
+    countryInfo.regions.forEach(function (regionData) {
 
-    // let firstTime = true;
+        html += "<span><label class='control-label'>" + regionData.displayName + " </label>"
+             +
+             "<input type='checkbox' class='form-check-input region_checkbox' data-name='" + regionData.displayName + "'";
 
-    // countryBlock.regions.forEach(function (regionData) {
+        if (firstTime) {
+            html += " checked></span>"
+            firstTime = false;
+        } else
+            html += "></span>";
+    });
 
-    //     checkboxContainer.append("<label class='control-label'>" + regionData.displayName + " </label>");
+    checkboxContainer.append(html);
 
-    //     let cbString = "<input type='checkbox' class='form-check-input' data-name='" + regionData.displayName + "'";
-    //     if (firstTime) {
-    //         cbString += " checked>"
-    //         firstTime = false;
-    //     } else {
-    //         cbString += ">";
-    //     }
-
-    //     checkboxContainer.append(cbString);
-    // });
+    $(".region_checkbox").click( function() { rebuildRegionsChart(); });
 }
 
 function updateDatePickers() {
@@ -160,13 +161,15 @@ function rebuildRegionsChart() {
     let startDate = $("#reg_date_from").datepicker("getDate");
     let endDate = $("#reg_date_to").datepicker("getDate");
 
-    let selectedCountryBlock = COUNTRY_DATA[dataStore.selectedCountry];
-
     let regionArray = [];
-    if ($("#england_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("England", selectedCountryBlock));
-    if ($("#wales_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("Wales", selectedCountryBlock));
-    if ($("#scotland_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("Scotland", selectedCountryBlock));
-    if ($("#nireland_checkbox").is(":checked")) regionArray.push(generateRegionAndColour("N. Ireland", selectedCountryBlock));
+
+    $(".region_checkbox").each(function () {
+
+        if ($(this).is(":checked")) {
+            let regionName = $(this).data("name");
+            regionArray.push(generateRegionAndColour(regionName, COUNTRY_DATA[dataStore.selectedCountry]));
+        }
+    });
 
     let dataSets = generateRegionDataSets(dataStore, startDate, endDate, regionArray);
 
@@ -209,14 +212,18 @@ function stopLoading(msg) {
     $("#refresh_button").css("pointer-events", "auto");
 }
 
+function initialise() {
+
+    initialiseRegionCheckboxes(COUNTRY_DATA[dataStore.selectedCountry]);
+    retrieveAndProcessData();
+}
+
 function retrieveAndProcessData() {
 
     dataStore.cleanCountryDataInfected = [];
     dataStore.cleanRegDataInfected = [];
 
     let selectedCountryBlock = COUNTRY_DATA[dataStore.selectedCountry];
-
-    initialiseRegionCheckboxes(selectedCountryBlock);
 
     startLoading(selectedCountryBlock.name);
     updateDatePickers();
